@@ -4,7 +4,7 @@ export const Logo = function (props: HTMLChakraProps<'svg'> & { iconColor?: stri
   const { iconColor = 'currentColor', ...rest } = props
   const color = useToken('colors', iconColor)
   return (
-    <Box d='flex' fontSize='xl' alignItems='center'>
+    <Box d='flex' alignItems='center'>
       <chakra.svg viewBox='0 0 100 100' {...rest}>
         <path
           d='M98.849 45.191zM26.042 44.932S12.394 95.218 67.097 95.656c17.163-6.39 29.81-22.054 31.727-40.939.132-1.306.171-2.639.2-3.973.006-.352.053-.693.053-1.046 0-1.521-.093-3.02-.227-4.507-14.452 56.894-78.388 34.61-72.808-.259z'
@@ -24,7 +24,9 @@ export const Logo = function (props: HTMLChakraProps<'svg'> & { iconColor?: stri
         />
         <path d='M64.163 49.7a13.746 13.746 0 11-27.493-.001 13.746 13.746 0 0127.493 0z' fill={color} />
       </chakra.svg>
-      <Text ml={4}>SCV</Text>
+      <Text ml={2} fontSize='xl' color='white'>
+        SCV
+      </Text>
     </Box>
   )
 }

@@ -1,24 +1,19 @@
-import { Box, Button, Center, useColorModeValue as mode } from '@chakra-ui/react'
+import { Box, Center, useColorModeValue as mode, useColorModeValue } from '@chakra-ui/react'
 import { Logo } from './Logo'
 import { Navbar } from './Navbar'
 
-const App = function () {
+const MainNavbar = function () {
   return (
-    <Box minH='3rem' bg={mode('gray.50', 'gray.700')}>
-      <Navbar>
+    <Box minH='2rem'>
+      <Navbar color={useColorModeValue('#3178c6', 'gray.700')}>
         <Navbar.Brand>
           <Center marginEnd='10'>
-            <Logo h='6' iconColor={mode('blue.600', 'blue.300')} />
+            <Logo h='6' iconColor={mode('white', 'blue.300')} />
           </Center>
         </Navbar.Brand>
-        <Navbar.Buttons>
-          <Button disabled>Run</Button>
-          <Button>Format</Button>
-          <Button>Share</Button>
-        </Navbar.Buttons>
       </Navbar>
     </Box>
   )
 }
 
-export default App
+export default MainNavbar
