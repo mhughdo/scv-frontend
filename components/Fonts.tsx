@@ -10,6 +10,12 @@ const Fonts = function () {
         font-style: normal;
         font-weight: 400;
       }
+      @font-face {
+        font-family: Dank Mono Regular;
+        src: url("fonts/DankMono-Regular.woff2") format("woff2");
+        font-style: normal;
+        font-weight: 400;
+      }
       `}
     />
   )
