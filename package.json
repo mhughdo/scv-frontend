@@ -29,11 +29,13 @@
     "next": "12.0.4",
     "prettier": "^2.4.1",
     "react": "^18.0.0-beta-96ca8d915-20211115",
-    "react-dom": "^18.0.0-beta-96ca8d915-20211115"
+    "react-dom": "^18.0.0-beta-96ca8d915-20211115",
+    "superagent": "^6.1.0"
   },
   "devDependencies": {
     "@types/node": "16.11.7",
     "@types/react": "17.0.35",
+    "@types/superagent": "^4.1.13",
     "eslint": "7",
     "eslint-config-next": "12.0.4",
     "typescript": "4.4.4"
