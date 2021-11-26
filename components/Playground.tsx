@@ -1,5 +1,5 @@
 import Navbar from 'components/navbars'
-import { Box, Flex, chakra, useDisclosure, Text, useToast } from '@chakra-ui/react'
+import { Box, Flex, useDisclosure, Text, useToast } from '@chakra-ui/react'
 import Toolbar from 'components/Toolbar'
 import monacoType from 'monaco-editor/esm/vs/editor/editor.api'
 import { Language as ILanguage, File as IFile } from 'types'
@@ -9,8 +9,6 @@ import Editor from '@monaco-editor/react'
 import nightOwl from 'styles/night-owl-light.json'
 import superagent from 'superagent'
 import { useEffect, useState, useRef } from 'react'
-
-const ChakraResizable = chakra(Resizable)
 
 const defaultEditorValue =
   'package main\n\nimport (\n\t"fmt"\n)\n\nfunc main() {\n\tfmt.Println("Hello, playground")\n}\n'
@@ -100,7 +98,7 @@ const Playground = function ({ file }: { file?: IFile }) {
             //   width: 'calc(100%-280px)',
             //   height: '100%',
             // }}
-            onResize={(...args) => {
+            onResize={() => {
               if (divRef?.current?.clientWidth && divRef?.current?.clientWidth < 766) {
                 setMinSizeReached(true)
               } else if (divRef?.current?.clientWidth && divRef?.current?.clientWidth > 766) {

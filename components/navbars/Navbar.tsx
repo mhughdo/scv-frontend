@@ -2,9 +2,9 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 /* eslint-disable no-use-before-define */
 import { isValidElement, ReactElement, FC, Children } from 'react'
-import { Flex, HStack, Spacer, useColorModeValue, Box } from '@chakra-ui/react'
+import { Flex, HStack, useColorModeValue, Box } from '@chakra-ui/react'
 
-export const Template: FC<{ color: string; minSizeReached: boolean }> = function (props) {
+export const Template: FC<{ color: string; minSizeReached?: boolean }> = function (props) {
   const children = Children.toArray(props.children).filter<ReactElement>(isValidElement)
   const { color, minSizeReached } = props
 
