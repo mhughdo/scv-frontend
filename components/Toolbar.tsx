@@ -8,6 +8,9 @@ import superagent from 'superagent'
 import FlashMessage from 'components/FlashMessage'
 import { CheckIcon, CopyIcon } from '@chakra-ui/icons'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
+import superagentPrefix from 'superagent-prefix'
+
+const prefix = superagentPrefix(process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '')
 
 const Toolbar = function ({
   isOpen,
@@ -49,7 +52,8 @@ const Toolbar = function ({
         })
       }
 
-      const response = await fetch('http://localhost:4000/v1/share', {
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : ''
+      const response = await fetch(`${baseUrl}/v1/share`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -114,10 +118,13 @@ const Toolbar = function ({
         })
       }
 
-      const { body } = await superagent.post('http://localhost:4000/v1/format').send({
-        language_id: languageID,
-        content: value,
-      })
+      const { body } = await superagent
+        .post('/v1/format')
+        .send({
+          language_id: languageID,
+          content: value,
+        })
+        .use(prefix)
 
       if (body?.content) {
         editorRef.current!.setValue(body.content as string)

@@ -10,8 +10,12 @@ import nightOwl from 'styles/night-owl-light.json'
 import superagent from 'superagent'
 import { useEffect, useState, useRef } from 'react'
 
+import superagentPrefix from 'superagent-prefix'
+
 const defaultEditorValue =
   'package main\n\nimport (\n\t"fmt"\n)\n\nfunc main() {\n\tfmt.Println("Hello, playground")\n}\n'
+
+const prefix = superagentPrefix(process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '')
 
 const Playground = function ({ file }: { file?: IFile }) {
   const { isOpen, onToggle } = useDisclosure()
@@ -45,7 +49,7 @@ const Playground = function ({ file }: { file?: IFile }) {
   useEffect(() => {
     const getLanguages = async () => {
       try {
-        const { body } = await superagent.get('http://localhost:4000/v1/languages')
+        const { body } = await superagent.get('/v1/languages').use(prefix)
         if (body?.length) {
           setLanguages(body as ILanguage[])
         }

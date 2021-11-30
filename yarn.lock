@@ -1053,7 +1053,14 @@
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
   integrity sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==
 
-"@types/superagent@^4.1.13":
+"@types/superagent-prefix@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@types/superagent-prefix/-/superagent-prefix-0.0.3.tgz#4c49781a220b920365b4e2fae3bca74efdcad882"
+  integrity sha512-nJFHYy9ENB5HqhXQs1bp+nux2/us/nGBPhoDxbDgc5iBhmbhmITDVOMRdC85WIsrUm1ptR4Cv4llF2UblIq4pw==
+  dependencies:
+    "@types/superagent" "*"
+
+"@types/superagent@*", "@types/superagent@^4.1.13":
   version "4.1.13"
   resolved "https://registry.yarnpkg.com/@types/superagent/-/superagent-4.1.13.tgz#0aaa3f4ff9404b94932d1dcdfb7f3d39d23997a0"
   integrity sha512-YIGelp3ZyMiH0/A09PMAORO0EBGlF5xIKfDpK74wdYvWUs2o96b5CItJcWPdH409b7SAXIIG6p8NdU/4U2Maww==
@@ -4088,6 +4095,11 @@ stylis@^4.0.10, stylis@^4.0.3:
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.10.tgz#446512d1097197ab3f02fb3c258358c3f7a14240"
   integrity sha512-m3k+dk7QeJw660eIKRRn3xPF6uuvHs/FFzjX3HQ5ove0qYsiygoAhwn5a3IYKaZPo5LrYD0rfVmtv1gNY1uYwg==
+
+superagent-prefix@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/superagent-prefix/-/superagent-prefix-0.0.2.tgz#b15bbb1353f889b00d25af10b4f11b350d203b06"
+  integrity sha1-sVu7E1P4ibANJa8QtPEbNQ0gOwY=
 
 superagent@^6.1.0:
   version "6.1.0"
