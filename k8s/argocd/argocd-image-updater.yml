@@ -21,6 +21,4 @@ spec:
     namespace: scv
   syncPolicy:
     automated:
-      selfHeal: true
-      prune: true
       allowEmpty: true

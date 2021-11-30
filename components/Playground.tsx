@@ -13,7 +13,7 @@ import { useEffect, useState, useRef } from 'react'
 import superagentPrefix from 'superagent-prefix'
 
 const defaultEditorValue =
-  'package main\n\nimport (\n\t"fmt"\n)\n\nfunc main() {\n\tfmt.Println("Hello, playground")\n}\n'
+  'package main\n\nimport (\n\t"fmt"\n)\n\nfunc main() {\n\tfmt.Println("Hello, playgrounddd")\n}\n'
 
 const prefix = superagentPrefix(process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '')
 
