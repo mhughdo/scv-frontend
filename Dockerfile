@@ -5,7 +5,7 @@ RUN yarn
 COPY . .
 RUN yarn build
 
-FROM node:16-alpine
+FROM node:16-alpine as deployer
 WORKDIR /usr/src/app
 ENV NODE_ENV production
 COPY --from=builder /usr/src/app/package.json  .
