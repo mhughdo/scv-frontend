@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scv-frontend-deployment
+  labels:
+    app: scv-frontend
+  namespace: scv
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: scv-frontend
+  template:
+    metadata:
+      labels:
+        app: scv-frontend
+    spec:
+      containers:
+        - name: scv-frontend-container
+          image: ghcr.io/mhughdo/scv-frontend:latest
+          ports:
+            - containerPort: 3000

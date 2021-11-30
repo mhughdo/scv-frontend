@@ -1,0 +1,51 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: scv-frontend-ingress-route
+  namespace: scv
+  annotations:
+    kubernetes.io/ingress.class: 'traefik'
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.frontend.redirect.entryPoint: https
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: HostRegexp(`{host:(www\.)?}scv.hughdo.dev`)
+      kind: Rule
+      services:
+        - name: scv-frontend-svc
+          port: 80
+  tls:
+    secretName: scv-crt-secret
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: redirect-http-to-https
+  namespace: scv
+  annotations:
+    kubernetes.io/ingress.class: 'traefik'
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: HostRegexp(`{host:(www\.)?}scv.hughdo.dev`)
+      kind: Rule
+      services:
+        - name: scv-frontend-svc
+          port: 80
+      middlewares:
+        - name: https-only
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-only
+  namespace: scv
+spec:
+  redirectScheme:
+    scheme: https
+    permanent: true
+    port: '443'

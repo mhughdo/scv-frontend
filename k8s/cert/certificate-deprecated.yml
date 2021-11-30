@@ -1,0 +1,16 @@
+# After applying cluster issuer, applying ingress.yml will automatically create challenge and certificate
+
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: scv-crt
+  namespace: scv
+spec:
+  commonName: scv.hughdo.dev
+  secretName: scv-crt-secret
+  dnsNames:
+    - scv.hughdo.dev
+    - www.scv.hughdo.dev
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
