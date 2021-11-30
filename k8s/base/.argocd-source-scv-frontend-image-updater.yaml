@@ -1,3 +1,3 @@
 kustomize:
   images:
-  - ghcr.io/mhughdo/scv-frontend:0d0ce34
+  - ghcr.io/mhughdo/scv-frontend:1dc1c1d
