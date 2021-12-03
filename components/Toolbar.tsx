@@ -81,9 +81,8 @@ const Toolbar = function ({
         return
       }
 
-      const baseUrl = superagentPrefix(
-        process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : 'https://scv.hughdo.dev'
-      )
+      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : 'https://scv.hughdo.dev'
+
       const response = await fetch(`${baseUrl}/v1/share`, {
         method: 'POST',
         headers: {
