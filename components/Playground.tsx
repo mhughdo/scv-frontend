@@ -1,5 +1,6 @@
+/* eslint-disable no-nested-ternary */
 import Navbar from 'components/navbars'
-import { Box, Flex, useDisclosure, Text, useToast } from '@chakra-ui/react'
+import { Box, Flex, useDisclosure, Text, useToast, Divider } from '@chakra-ui/react'
 import Toolbar from 'components/Toolbar'
 import monacoType from 'monaco-editor/esm/vs/editor/editor.api'
 import { Language as ILanguage, File as IFile } from 'types'
@@ -27,6 +28,8 @@ const Playground = function ({ file }: { file?: IFile }) {
   const [minSizeReached, setMinSizeReached] = useState(false)
   const divRef = useRef<HTMLDivElement | null>(null)
   const [hash, setHash] = useState('')
+  const [logs, setLogs] = useState<Array<{ kind: string; message: string }>>([])
+  const [compileLoading, setCompileLoading] = useState(false)
 
   const handleEditorWillMount = (monaco: typeof monacoType) => {
     monaco.editor.defineTheme('Night-Owl-Light', nightOwl as monacoType.editor.IStandaloneThemeData)
@@ -119,11 +122,13 @@ const Playground = function ({ file }: { file?: IFile }) {
                 editorRef={editorRef}
                 hash={hash}
                 setHash={setHash}
+                setLogs={setLogs}
+                setCompileLoading={setCompileLoading}
                 minSizeReached={minSizeReached}
               />
               <Box />
               <Editor
-                height='90vh'
+                height='87vh'
                 width='auto'
                 defaultLanguage='go'
                 defaultValue={defaultEditorValue}
@@ -152,12 +157,32 @@ const Playground = function ({ file }: { file?: IFile }) {
               pr={4}
               pl={2}
               flexDirection='column'
-              overflow='hidden'
+              overflow='scroll'
               d='block'>
-              <Box mt={4} textAlign='center'>
+              <Box mt={4} textAlign='center' height='100%'>
                 <Text fontSize='sm' fontWeight='600'>
                   Logs
                 </Text>
+                <Box mt={4} d='flex' flexDirection='column'>
+                  {logs.length > 0 ? (
+                    logs.map((log, index) => (
+                      <Box key={index}>
+                        <Box d='flex'>
+                          [
+                          <Text fontSize='sm' color={log?.kind === 'ERR' ? 'red' : 'silver'}>
+                            {log.kind === 'ERR' ? 'ERR' : 'LOG'}
+                          </Text>
+                          ]: <Text fontSize='sm'>{log.message}</Text>
+                        </Box>
+                        <Divider my={2} borderBottom='1px dashed #ccc !important' />
+                      </Box>
+                    ))
+                  ) : compileLoading ? (
+                    <Text fontSize='sm'>Waiting for remote server</Text>
+                  ) : (
+                    <Text fontSize='sm'>No logs</Text>
+                  )}
+                </Box>
               </Box>
             </Box>
           )}

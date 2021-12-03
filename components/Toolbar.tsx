@@ -12,6 +12,20 @@ import superagentPrefix from 'superagent-prefix'
 
 const prefix = superagentPrefix(process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '')
 
+interface IEvent {
+  message: string
+  kind: string
+  delay: number
+}
+
+interface CompileRes {
+  errors: string
+  events: IEvent[]
+  status: number
+  isTest: boolean
+  testsFailed: number
+}
+
 const Toolbar = function ({
   isOpen,
   onToggle,
@@ -20,13 +34,17 @@ const Toolbar = function ({
   hash,
   setHash,
   minSizeReached,
+  setLogs,
+  setCompileLoading,
 }: {
   isOpen: boolean
   onToggle: () => void
   setHash: Dispatch<SetStateAction<string>>
+  setLogs: Dispatch<SetStateAction<Array<{ kind: string; message: string }>>>
   hash: string
   languages: ILanguage[]
   editorRef: MutableRefObject<monacoType.editor.IStandaloneCodeEditor | null>
+  setCompileLoading: Dispatch<SetStateAction<boolean>>
   minSizeReached: boolean
 }) {
   const selectRef = useRef<HTMLSelectElement | null>(null)
@@ -43,6 +61,14 @@ const Toolbar = function ({
   const shareCode = async () => {
     try {
       const value = editorRef.current!.getValue()
+      if (!value) {
+        toast({
+          title: 'File content must not be empty',
+          status: 'error',
+          position: 'top',
+        })
+        return
+      }
       const languageID = languages.find((l) => l.name === selectRef.current!.value)?.id
       if (!languageID) {
         toast({
@@ -50,6 +76,7 @@ const Toolbar = function ({
           status: 'error',
           position: 'top',
         })
+        return
       }
 
       const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : ''
@@ -116,6 +143,7 @@ const Toolbar = function ({
           status: 'error',
           position: 'top',
         })
+        return
       }
 
       const { body } = await superagent
@@ -126,6 +154,10 @@ const Toolbar = function ({
         })
         .use(prefix)
 
+      if (!body?.content && body?.message) {
+        setLogs((logs) => [...logs, { kind: 'ERR', message: body.message }])
+        return
+      }
       if (body?.content) {
         editorRef.current!.setValue(body.content as string)
       }
@@ -139,6 +171,55 @@ const Toolbar = function ({
     }
   }
 
+  const compileAndRun = async () => {
+    try {
+      setLogs([])
+      setCompileLoading(true)
+      const value = editorRef.current!.getValue()
+      const languageID = languages.find((l) => l.name === selectRef.current!.value)?.id
+      if (!languageID) {
+        toast({
+          title: 'Error getting language id',
+          status: 'error',
+          position: 'top',
+        })
+        setCompileLoading(false)
+        return
+      }
+
+      const { body }: { body: CompileRes } = await superagent
+        .post('/v1/compile')
+        .send({
+          language_id: languageID,
+          content: value,
+        })
+        .use(prefix)
+
+      if (body?.errors) {
+        setLogs([{ kind: 'ERR', message: body.errors }])
+        setCompileLoading(false)
+        return
+      }
+
+      if (body?.events?.length > 0) {
+        const newLogs: Array<{ kind: string; message: string }> = body.events.map((event: IEvent) => ({
+          kind: 'LOG',
+          message: event.message,
+        }))
+        setLogs(newLogs)
+        setCompileLoading(false)
+      }
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: 'Error running the file',
+        status: 'error',
+        position: 'top',
+      })
+    }
+    setCompileLoading(false)
+  }
+
   return (
     <Box mb={2} borderBottom='1px solid #c4c4c4'>
       <Navbar color='white' minSizeReached={minSizeReached}>
@@ -150,7 +231,7 @@ const Toolbar = function ({
               </option>
             ))}
           </Select>
-          <Button disabled fontSize='sm' size='sm' px={4}>
+          <Button fontSize='sm' size='sm' px={4} onClick={compileAndRun}>
             Run
           </Button>
           <Button fontSize='sm' size='sm' px={6} onClick={formatCode}>
