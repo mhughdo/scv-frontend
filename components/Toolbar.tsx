@@ -10,7 +10,9 @@ import { CheckIcon, CopyIcon } from '@chakra-ui/icons'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import superagentPrefix from 'superagent-prefix'
 
-const prefix = superagentPrefix(process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '')
+const prefix = superagentPrefix(
+  process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : 'https://scv.hughdo.dev'
+)
 
 interface IEvent {
   message: string
@@ -79,7 +81,9 @@ const Toolbar = function ({
         return
       }
 
-      const baseUrl = process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : ''
+      const baseUrl = superagentPrefix(
+        process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : 'https://scv.hughdo.dev'
+      )
       const response = await fetch(`${baseUrl}/v1/share`, {
         method: 'POST',
         headers: {

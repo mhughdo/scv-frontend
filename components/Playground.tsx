@@ -16,7 +16,9 @@ import superagentPrefix from 'superagent-prefix'
 const defaultEditorValue =
   'package main\n\nimport (\n\t"fmt"\n)\n\nfunc main() {\n\tfmt.Println("Hello, playgrounddd")\n}\n'
 
-const prefix = superagentPrefix(process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '')
+const prefix = superagentPrefix(
+  process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : 'https://scv.hughdo.dev'
+)
 
 const Playground = function ({ file }: { file?: IFile }) {
   const { isOpen, onToggle } = useDisclosure()

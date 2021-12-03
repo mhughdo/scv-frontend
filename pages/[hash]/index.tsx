@@ -7,7 +7,9 @@ import Playground from 'components/Playground'
 
 import superagentPrefix from 'superagent-prefix'
 
-const prefix = superagentPrefix(process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : '')
+const prefix = superagentPrefix(
+  process.env.NODE_ENV === 'development' ? 'http://localhost:4000' : 'https://scv.hughdo.dev'
+)
 
 const SharedFile: NextPage<{ file: IFile }> = function ({ file }) {
   return (
@@ -34,6 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       },
     }
   } catch (error) {
+    console.log(error)
     return {
       notFound: true,
     }
