@@ -178,6 +178,9 @@ const Toolbar = function ({
     try {
       setLogs([])
       setCompileLoading(true)
+      if (!isOpen) {
+        onToggle()
+      }
       const value = editorRef.current!.getValue()
       const languageID = languages.find((l) => l.name === selectRef.current!.value)?.id
       if (!languageID) {

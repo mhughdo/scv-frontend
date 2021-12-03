@@ -174,7 +174,10 @@ const Playground = function ({ file }: { file?: IFile }) {
                           <Text fontSize='sm' color={log?.kind === 'ERR' ? 'red' : 'silver'}>
                             {log.kind === 'ERR' ? 'ERR' : 'LOG'}
                           </Text>
-                          ]: <Text fontSize='sm'>{log.message}</Text>
+                          ]:{' '}
+                          <Text fontSize='sm' whiteSpace='pre-line'>
+                            {log.message}
+                          </Text>
                         </Box>
                         <Divider my={2} borderBottom='1px dashed #ccc !important' />
                       </Box>
